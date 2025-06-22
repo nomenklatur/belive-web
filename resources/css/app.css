@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
@@ -7,9 +8,13 @@
 
 /* @custom-variant dark (&:is(.dark *)); */
 
+.font-manrope {
+    font-family: 'Manrope', sans-serif;
+}
+
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        'Work Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -113,7 +118,7 @@
     --sidebar-ring: oklch(0.87 0 0);
 }
 
-.dark {
+/* .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.145 0 0);
@@ -146,7 +151,7 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(0.269 0 0);
     --sidebar-ring: oklch(0.439 0 0);
-}
+} */
 
 @layer base {
     * {
@@ -155,5 +160,6 @@
 
     body {
         @apply bg-background text-foreground;
+        font-family: "Work Sans", system-ui;
     }
 }
