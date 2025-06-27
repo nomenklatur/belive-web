@@ -12,12 +12,12 @@ export default function LandingPageNavigation() {
                     <span className="text-2xl font-bold text-gray-900 font-manrope">Belive</span>
                 </div>
                 
-                <nav className="hidden md:flex items-center space-x-8">
+                {/* <nav className="hidden md:flex items-center space-x-8">
                     <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">Properties</a>
                     <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">About</a>
                     <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">Services</a>
                     <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
-                </nav>
+                </nav> */}
                 
                 <div className="flex items-center space-x-4">
                 <div className="hidden lg:flex items-center space-x-4 text-sm text-gray-600">
