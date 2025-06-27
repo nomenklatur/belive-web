@@ -2,6 +2,7 @@ import { Head } from '@inertiajs/react';
 import LandingPageNavigation from '@/components/custom/landing-page/nav';
 import LandingPageHero from '@/components/custom/landing-page/hero';
 import LandingPageStays from '@/components/custom/landing-page/stays';
+import LandingPageEarlyAccess from '@/components/custom/landing-page/early-access';
 
 export default function Welcome() {
 
@@ -15,6 +16,7 @@ export default function Welcome() {
                 <LandingPageNavigation />
                 <LandingPageHero />
                 <LandingPageStays />
+                <LandingPageEarlyAccess />
             </div>
         </>
     );
