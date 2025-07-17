@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { router, usePage, Head } from '@inertiajs/react';
-import { useState } from 'react';
+import { router, usePage, Head, Link } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
 import { type BreadcrumbItem } from '@/types';
 import AppTable from '@/components/app-table';
@@ -18,7 +17,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Index() {
   const { users, query } = usePage().props;
-  const [currentPage, setCurrentPage] = useState(1);
 
   const { filters, setAndApplyFilters } = useFilters({
     search: (query as any)?.search,
@@ -29,8 +27,6 @@ export default function Index() {
     router.get(route('users.index'), { ...filters });
   }
 )
-
-  console.log(query);
 
   const headers = [
     { key: 'name', title: 'Name', sortable: true },
@@ -51,7 +47,10 @@ export default function Index() {
             <div className="flex h-full flex-1 flex-col gap-2 rounded-xl p-4 overflow-x-auto">
                 <div className='flex justify-between items-center'>
                     <Heading title="Users" description="Manage your users information" />
-                    <Button className='mb-8'> <Plus /> New</Button>
+                    <Link href='/users/create'>
+                      <Button className='mb-8'> <Plus /> New</Button>
+                    </Link>
+                    
                 </div>
                     <AppTable
                         headers={headers}
@@ -62,7 +61,6 @@ export default function Index() {
                         onSearch={(value: string) => {console.log('Search query:', value); setAndApplyFilters('search', value)}}
                         onFilter={() => console.log('Filter applied')}
                         onResetFilters={() => console.log('Filters reset')}
-                        onPageChange={setCurrentPage}
                         renderRow={(item: any) => (
                         <>
                             <td className="px-4 py-2 font-medium">{item.name}</td>

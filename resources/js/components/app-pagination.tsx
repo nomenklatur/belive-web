@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { router } from '@inertiajs/react';
 
 interface PaginationLink {
   url: string | null;
@@ -15,15 +16,8 @@ interface PaginationProps {
 
 const AppPagination: React.FC<PaginationProps> = ({ links = [], onPageChange }) => {
   const handleClick = (e: React.MouseEvent, url: string | null) => {
-    if (!url) {
-      e.preventDefault();
-      return;
-    }
-    
-    if (onPageChange) {
-      e.preventDefault();
-      onPageChange(url);
-    }
+    e.preventDefault()
+    router.visit(url!);
   };
 
   if (!links.length) return null;

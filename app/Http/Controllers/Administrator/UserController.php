@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -19,8 +20,20 @@ class UserController extends Controller
             'users' => User::query()
                 ->when(request('search'), fn ($q) => $q->where('name', 'like', '%'.request('search', '').'%'))
                 ->when(!empty($sortRequest[0]), fn ($q) => $q->orderBy($sortRequest[0], $sortRequest[1]))
-                ->paginate(10)
+                ->paginate(5)
                 ->withQueryString(),
         ]);
+    }
+
+    public function create(): Response
+    {
+        return Inertia::render('users/form');
+    }
+
+    public function store(UserRequest $request)
+    {
+        $payload = $request->validated();
+        User::create($payload);
+        return to_route('users.index')->with('success', 'Successfully created user');
     }
 }
