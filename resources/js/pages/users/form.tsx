@@ -18,7 +18,7 @@ type UserForm = {
 
 
 export default function Index() {
-  const { users } = usePage().props;
+  const { user } = usePage().props;
 
   const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -26,14 +26,14 @@ export default function Index() {
             href: '/users',
         },
         {
-            title: users ? 'Edit' : 'Create',
-            href: users ? `/users/${(users as any).id}/edit` : '/users/create',
+            title: user ? 'Edit' : 'Create',
+            href: user ? `/users/${(user as any).id}/edit` : '/users/create',
         }
     ];
 
-    const { data, setData, post, errors, processing, recentlySuccessful } = useForm<Required<UserForm>>({
-        name: users ? (users as any).name : '',
-        email: users ? (users as any).email : '',
+    const { data, setData, post, put, errors, processing, recentlySuccessful } = useForm<Required<UserForm>>({
+        name: user ? (user as any).name : '',
+        email: user ? (user as any).email : '',
         password: '',
         password_confirmation: '',
     });
@@ -41,16 +41,23 @@ export default function Index() {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('users.store'), {
-            preserveScroll: true,
-        });
+        if (user) {
+            console.log('hellow')
+            put(route('users.update', (user as any).id), {
+                preserveScroll: true,
+            })
+        } else {
+            post(route('users.store'), {
+                preserveScroll: true,
+            });
+        }
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Users" />
             <div className="space-y-6 p-8">
-                    <HeadingSmall title="Users" description={users ? 'Update user information' : 'Create a new user'} />
+                    <HeadingSmall title="Users" description={user ? 'Update user information' : 'Create a new user'} />
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="grid gap-2">

@@ -36,4 +36,19 @@ class UserController extends Controller
         User::create($payload);
         return to_route('users.index')->with('success', 'Successfully created user');
     }
+
+    public function edit(User $user): Response
+    {
+        return Inertia::render('users/form', [
+            'user' => $user,
+        ]);
+    }
+
+    public function update(UserRequest $request, User $user)
+    {
+        $payload = $request->validated();
+        $payload['password'] = empty($payload['password']) ? $user->password : bcrypt($payload['password']);
+        $user->update($payload);
+        return to_route('users.index')->with('success', 'Successfully updated user');
+    }
 }

@@ -72,7 +72,7 @@ export default function Index() {
                         <div className="text-sm">
                             <button 
                             className="block w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
-                            onClick={() => console.log('Edit', item.id)}
+                            onClick={() => router.visit(`/users/${item.id}/edit`)}
                             >
                             Edit
                             </button>
