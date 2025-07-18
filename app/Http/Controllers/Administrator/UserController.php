@@ -51,4 +51,10 @@ class UserController extends Controller
         $user->update($payload);
         return to_route('users.index')->with('success', 'Successfully updated user');
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return to_route('users.index')->with('success', 'Successfully deleted user');
+    }
 }

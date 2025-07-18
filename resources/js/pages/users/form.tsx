@@ -42,7 +42,6 @@ export default function Index() {
         e.preventDefault();
 
         if (user) {
-            console.log('hellow')
             put(route('users.update', (user as any).id), {
                 preserveScroll: true,
             })

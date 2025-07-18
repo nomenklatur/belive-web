@@ -7,6 +7,9 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { useFilters } from '@/hooks/use-filters';
 import { formatToDateTimeString } from '@/lib/datetime';
+import { useState } from 'react';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,16 +20,26 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Index() {
   const { users, query } = usePage().props;
+  const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false);
+  const [userIdToDelete, setUserIdToDelete] = useState(null);
 
   const { filters, setAndApplyFilters } = useFilters({
     search: (query as any)?.search,
     sortBy: (query as any)?.sortBy,
   },
   (filters: any) => {
-    console.log("Filters applied:", filters);
     router.get(route('users.index'), { ...filters });
   }
 )
+
+  const deleteUser = () => {
+  if (!userIdToDelete) {
+    return;
+  }
+  router.delete(route('users.destroy', userIdToDelete!));
+  setIsDeleteUserModalOpen(false);
+  setUserIdToDelete(null);
+}
 
   const headers = [
     { key: 'name', title: 'Name', sortable: true },
@@ -36,7 +49,7 @@ export default function Index() {
 
   const options = {
     searchable: true,
-    filterable: true,
+    filterable: false,
     search: filters.search,
     sortBy: filters.sortBy,
     searchPlaceholder: 'Search users...'
@@ -57,8 +70,8 @@ export default function Index() {
                         data={users}
                         hasAction={true}
                         options={options}
-                        onSort={(value: string) => {console.log('Sorted by:', value); setAndApplyFilters('sortBy', value)}}
-                        onSearch={(value: string) => {console.log('Search query:', value); setAndApplyFilters('search', value)}}
+                        onSort={(value: string) => setAndApplyFilters('sortBy', value)}
+                        onSearch={(value: string) => setAndApplyFilters('search', value)}
                         onFilter={() => console.log('Filter applied')}
                         onResetFilters={() => console.log('Filters reset')}
                         renderRow={(item: any) => (
@@ -78,7 +91,10 @@ export default function Index() {
                             </button>
                             <button 
                             className="block w-full text-left px-2 py-1 hover:bg-gray-100 rounded text-red-600"
-                            onClick={() => console.log('Delete', item.id)}
+                            onClick={() => {
+                                setUserIdToDelete(item.id);
+                                setIsDeleteUserModalOpen(true);
+                            }}
                             >
                             Delete
                             </button>
@@ -98,6 +114,24 @@ export default function Index() {
                         )}
                     />
             </div>
+            <Dialog open={isDeleteUserModalOpen} onOpenChange={setIsDeleteUserModalOpen}>
+                    <DialogContent>
+                      <DialogTitle>Are you sure you want to delete this user?</DialogTitle>
+                        <DialogDescription>
+                            Once this user is deleted, all of its resources and data will also be permanently deleted.
+                        </DialogDescription>
+                            <DialogFooter className="gap-2">
+                                <DialogClose asChild>
+                                    <Button variant="secondary" onClick={() => setIsDeleteUserModalOpen(false)}>
+                                        Cancel
+                                    </Button>
+                                </DialogClose>
+                                <Button variant="destructive" onClick={deleteUser} >
+                                   Delete user
+                                </Button>
+                            </DialogFooter>
+                    </DialogContent>
+                </Dialog>
         </AppLayout>
     );
 }
