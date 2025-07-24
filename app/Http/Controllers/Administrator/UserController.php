@@ -9,8 +9,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-use function PHPUnit\Framework\isEmpty;
-
 class UserController extends Controller
 {
     public function index(Request $request): Response
